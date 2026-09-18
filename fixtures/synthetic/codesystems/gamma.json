@@ -1,0 +1,20 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "gamma",
+  "url": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+  "version": "1.0.0",
+  "name": "Gamma",
+  "status": "active",
+  "content": "complete",
+  "caseSensitive": true,
+  "concept": [
+    {
+      "code": "A1",
+      "display": "Gamma A1"
+    },
+    {
+      "code": "G2",
+      "display": "Gamma G2"
+    }
+  ]
+}

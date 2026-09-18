@@ -1,0 +1,21 @@
+{
+  "resourceType": "ValueSet",
+  "id": "filter",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/filter",
+  "name": "filter",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+        "filter": [
+          {
+            "property": "concept",
+            "op": "is-a",
+            "value": "B1"
+          }
+        ]
+      }
+    ]
+  }
+}

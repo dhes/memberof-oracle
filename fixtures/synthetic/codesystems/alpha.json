@@ -1,0 +1,28 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "alpha",
+  "url": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+  "version": "1.0.0",
+  "name": "Alpha",
+  "status": "active",
+  "content": "complete",
+  "caseSensitive": true,
+  "concept": [
+    {
+      "code": "A1",
+      "display": "Alpha A1"
+    },
+    {
+      "code": "A2",
+      "display": "Alpha A2"
+    },
+    {
+      "code": "A3",
+      "display": "Alpha A3"
+    },
+    {
+      "code": "A4",
+      "display": "Alpha A4"
+    }
+  ]
+}

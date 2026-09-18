@@ -1,0 +1,1415 @@
+{
+  "generator": "memberof-oracle",
+  "hapiCoreVersion": "6.9.4.1",
+  "terminologyServer": "none (offline)",
+  "reference": "hapiR5",
+  "fixturesSha256": "a7a609dd15cceed19d1f2de7e89ef6542eaf4ff363dc92b1ee362c02e8050871",
+  "configurations": {
+    "hapiR5": "org.hl7.fhir.r5 FHIRPathEngine, CodeSystems loaded. The reference column.",
+    "hapiR5-noCodeSystem": "Same, CodeSystems withheld: how HAPI degrades when it cannot see the code system.",
+    "hapiR4": "org.hl7.fhir.r4 FHIRPathEngine, CodeSystems loaded.",
+    "hapiR4-noCodeSystem": "Same, CodeSystems withheld."
+  },
+  "loadFailures": {
+    "hapiR4": [
+      "versioned-2.json: DefinitionException: Duplicate Resource http://example.org/fhirpath-memberof/ValueSet/versioned"
+    ],
+    "hapiR4-noCodeSystem": [
+      "versioned-2.json: DefinitionException: Duplicate Resource http://example.org/fhirpath-memberof/ValueSet/versioned"
+    ]
+  },
+  "cases": [
+    {
+      "id": "S001",
+      "note": "Coding in set (first system)",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S002",
+      "note": "Coding in set (second system)",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S003",
+      "note": "Coding: right system, code not in set",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S004",
+      "note": "Coding: code unknown to its system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "ZZ"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S005",
+      "note": "Coding: right code, wrong system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S006",
+      "note": "Coding: right code, unknown system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/nowhere",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S007",
+      "note": "Coding without system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S008",
+      "note": "Coding without code",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S009",
+      "note": "CodeableConcept: single member",
+      "expression": "Observation.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "true"
+      }
+    },
+    {
+      "id": "S010",
+      "note": "CodeableConcept: one member among non-members",
+      "expression": "Observation.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+              "code": "G2"
+            },
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "true"
+      }
+    },
+    {
+      "id": "S011",
+      "note": "CodeableConcept: no members",
+      "expression": "Observation.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+              "code": "G2"
+            },
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S012",
+      "note": "CodeableConcept without codings",
+      "expression": "Observation.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "text": "free text"
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S013",
+      "note": "bare code in set, unambiguous",
+      "expression": "Observation.code.coding.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S014",
+      "note": "bare code in set, code also exists in a system outside the set",
+      "expression": "Observation.code.coding.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S015",
+      "note": "bare code not in set",
+      "expression": "Observation.code.coding.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S016",
+      "note": "bare string in set",
+      "expression": "Observation.value.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "valueString": "A1"
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "error:FHIRException",
+        "hapiR4-noCodeSystem": "error:FHIRException"
+      },
+      "details": {
+        "hapiR4": "Unable to convert a org.hl7.fhir.r4.model.StringType to a Coding @ Base.castToCoding",
+        "hapiR4-noCodeSystem": "Unable to convert a org.hl7.fhir.r4.model.StringType to a Coding @ Base.castToCoding"
+      }
+    },
+    {
+      "id": "S017",
+      "note": "bare string not in set",
+      "expression": "Observation.value.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "valueString": "A3"
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "error:FHIRException",
+        "hapiR4-noCodeSystem": "error:FHIRException"
+      },
+      "details": {
+        "hapiR4": "Unable to convert a org.hl7.fhir.r4.model.StringType to a Coding @ Base.castToCoding",
+        "hapiR4-noCodeSystem": "Unable to convert a org.hl7.fhir.r4.model.StringType to a Coding @ Base.castToCoding"
+      }
+    },
+    {
+      "id": "S018",
+      "note": "bare uri focus",
+      "expression": "Observation.code.coding.system.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "error:FHIRException",
+        "hapiR4-noCodeSystem": "error:FHIRException"
+      },
+      "details": {
+        "hapiR4": "Unable to convert a org.hl7.fhir.r4.model.UriType to a Coding @ Base.castToCoding",
+        "hapiR4-noCodeSystem": "Unable to convert a org.hl7.fhir.r4.model.UriType to a Coding @ Base.castToCoding"
+      }
+    },
+    {
+      "id": "S019",
+      "note": "empty focus",
+      "expression": "Observation.category.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "empty",
+        "hapiR4-noCodeSystem": "empty"
+      }
+    },
+    {
+      "id": "S020",
+      "note": "focus with two Codings",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            },
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "empty",
+        "hapiR4-noCodeSystem": "empty"
+      }
+    },
+    {
+      "id": "S021",
+      "note": "focus of an unsupported type (boolean)",
+      "expression": "Observation.code.exists().memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "empty",
+        "hapiR4-noCodeSystem": "empty"
+      }
+    },
+    {
+      "id": "S022",
+      "note": "unknown ValueSet url",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/does-not-exist')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "empty",
+        "hapiR4-noCodeSystem": "empty"
+      }
+    },
+    {
+      "id": "S023",
+      "note": "empty collection as argument",
+      "expression": "Observation.code.coding.memberOf({})",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "empty",
+        "hapiR4-noCodeSystem": "empty"
+      }
+    },
+    {
+      "id": "S024",
+      "note": "integer as argument",
+      "expression": "Observation.code.coding.memberOf(1)",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "error:Error",
+        "hapiR4-noCodeSystem": "error:Error"
+      },
+      "details": {
+        "hapiR4": "org.hl7.fhir.exceptions.FHIRException: not done yet: can't fetch 1 @ BaseWorkerContext.fetchResource",
+        "hapiR4-noCodeSystem": "org.hl7.fhir.exceptions.FHIRException: not done yet: can't fetch 1 @ BaseWorkerContext.fetchResource"
+      }
+    },
+    {
+      "id": "S025",
+      "note": "expansion only: member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/expansion-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S026",
+      "note": "expansion only: non-member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/expansion-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S027",
+      "note": "expansion only: CodeableConcept member",
+      "expression": "Observation.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/expansion-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "true"
+      }
+    },
+    {
+      "id": "S028",
+      "note": "expansion only: bare code member",
+      "expression": "Observation.code.coding.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/expansion-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S029",
+      "note": "compose only: member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/compose-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S030",
+      "note": "compose only: non-member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/compose-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S031",
+      "note": "compose only: wrong system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/compose-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S032",
+      "note": "compose only: bare code member",
+      "expression": "Observation.code.coding.code.memberOf('http://example.org/fhirpath-memberof/ValueSet/compose-only')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S033",
+      "note": "nested expansion: parent",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/nested')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S034",
+      "note": "nested expansion: child",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/nested')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1a"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S035",
+      "note": "nested expansion: sibling outside set",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/nested')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S036",
+      "note": "abstract entry itself",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/abstract')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S037",
+      "note": "child of abstract entry",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/abstract')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1a"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S038",
+      "note": "inactive entry",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/inactive')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S039",
+      "note": "active entry beside an inactive one",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/inactive')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S040",
+      "note": "exclude: included and not excluded",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/exclude')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S041",
+      "note": "exclude: excluded",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/exclude')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S042",
+      "note": "versioned: url|1.0.0 member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned|1.0.0')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S043",
+      "note": "versioned: url|1.0.0 non-member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned|1.0.0')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S044",
+      "note": "versioned: url|2.0.0 member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned|2.0.0')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S045",
+      "note": "versioned: unversioned url, code only in 1.0.0",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S046",
+      "note": "versioned: unversioned url, code only in 2.0.0",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S047",
+      "note": "versioned: url|9.9.9 does not exist",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/versioned|9.9.9')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S048",
+      "note": "unversioned ValueSet referenced with a version",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape|1.0.0')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "empty",
+        "hapiR5-noCodeSystem": "empty",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S049",
+      "note": "filter is-a: descendant",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/filter')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1a"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S050",
+      "note": "filter is-a: the root itself",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/filter')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S051",
+      "note": "filter is-a: outside",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/filter')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+              "code": "B2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S052",
+      "note": "whole system: a code of the system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/whole-system')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A4"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S053",
+      "note": "whole system: not a code of the system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/whole-system')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "ZZ"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S054",
+      "note": "whole system: another system",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/whole-system')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/gamma",
+              "code": "G2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S055",
+      "note": "imported ValueSet: member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/import')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S056",
+      "note": "imported ValueSet: non-member",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/import')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "false",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S057",
+      "note": "disagree: code only in compose",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/disagree')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A1"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    },
+    {
+      "id": "S058",
+      "note": "disagree: code only in expansion",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/disagree')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A2"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "true",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "true",
+        "hapiR4-noCodeSystem": "error:NullPointerException"
+      },
+      "details": {
+        "hapiR4-noCodeSystem": "Cannot invoke \"org.hl7.fhir.r4.context.IWorkerContext$ValidationResult.isOk()\" because the return value of \"org.hl7.fhir.r4.context.IWorkerContext.validateCode(org.hl7.fhir.utilities.validation.Valida @ FHIRPathEngine.funcMemberOf"
+      }
+    },
+    {
+      "id": "S059",
+      "note": "disagree: code in neither",
+      "expression": "Observation.code.coding.memberOf('http://example.org/fhirpath-memberof/ValueSet/disagree')",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+              "code": "A3"
+            }
+          ]
+        }
+      },
+      "results": {
+        "hapiR5": "false",
+        "hapiR5-noCodeSystem": "true",
+        "hapiR4": "false",
+        "hapiR4-noCodeSystem": "false"
+      }
+    }
+  ]
+}

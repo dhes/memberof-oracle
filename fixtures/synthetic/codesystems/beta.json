@@ -1,0 +1,31 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "beta",
+  "url": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+  "version": "1.0.0",
+  "name": "Beta",
+  "status": "active",
+  "content": "complete",
+  "caseSensitive": true,
+  "concept": [
+    {
+      "code": "B1",
+      "display": "Beta B1",
+      "concept": [
+        {
+          "code": "B1a",
+          "display": "Beta B1a"
+        },
+        {
+          "code": "B1b",
+          "display": "Beta B1b"
+        }
+      ]
+    },
+    {
+      "code": "B2",
+      "display": "Beta B2"
+    }
+  ],
+  "hierarchyMeaning": "is-a"
+}

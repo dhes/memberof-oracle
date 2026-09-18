@@ -1,0 +1,23 @@
+{
+  "resourceType": "ValueSet",
+  "id": "abstract",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/abstract",
+  "name": "abstract",
+  "status": "active",
+  "expansion": {
+    "timestamp": "2026-01-01T00:00:00Z",
+    "contains": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+        "code": "B1",
+        "abstract": true,
+        "contains": [
+          {
+            "system": "http://example.org/fhirpath-memberof/CodeSystem/beta",
+            "code": "B1a"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+.gradle/
+build/
+.idea/
+*.iml
+.DS_Store
+# WHO-derived outputs carry ICD-11 / ATC / SNOMED CT / LOINC codes: never commit.
+out/who/

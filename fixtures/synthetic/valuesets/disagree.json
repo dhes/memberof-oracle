@@ -1,0 +1,28 @@
+{
+  "resourceType": "ValueSet",
+  "id": "disagree",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/disagree",
+  "name": "disagree",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "concept": [
+          {
+            "code": "A1"
+          }
+        ]
+      }
+    ]
+  },
+  "expansion": {
+    "timestamp": "2026-01-01T00:00:00Z",
+    "contains": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "code": "A2"
+      }
+    ]
+  }
+}

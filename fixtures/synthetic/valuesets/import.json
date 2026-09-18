@@ -1,0 +1,16 @@
+{
+  "resourceType": "ValueSet",
+  "id": "import",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/import",
+  "name": "import",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "valueSet": [
+          "http://example.org/fhirpath-memberof/ValueSet/compose-only"
+        ]
+      }
+    ]
+  }
+}

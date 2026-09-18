@@ -1,0 +1,22 @@
+{
+  "resourceType": "ValueSet",
+  "id": "compose-only",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/compose-only",
+  "name": "compose_only",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "concept": [
+          {
+            "code": "A1"
+          },
+          {
+            "code": "A2"
+          }
+        ]
+      }
+    ]
+  }
+}

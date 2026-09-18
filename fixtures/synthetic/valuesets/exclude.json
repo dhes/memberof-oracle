@@ -1,0 +1,35 @@
+{
+  "resourceType": "ValueSet",
+  "id": "exclude",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/exclude",
+  "name": "exclude",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "concept": [
+          {
+            "code": "A1"
+          },
+          {
+            "code": "A2"
+          },
+          {
+            "code": "A3"
+          }
+        ]
+      }
+    ],
+    "exclude": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "concept": [
+          {
+            "code": "A2"
+          }
+        ]
+      }
+    ]
+  }
+}

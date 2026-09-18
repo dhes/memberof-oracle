@@ -1,0 +1,14 @@
+{
+  "resourceType": "ValueSet",
+  "id": "whole-system",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/whole-system",
+  "name": "whole_system",
+  "status": "active",
+  "compose": {
+    "include": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha"
+      }
+    ]
+  }
+}

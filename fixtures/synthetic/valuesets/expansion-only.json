@@ -1,0 +1,16 @@
+{
+  "resourceType": "ValueSet",
+  "id": "expansion-only",
+  "url": "http://example.org/fhirpath-memberof/ValueSet/expansion-only",
+  "name": "expansion_only",
+  "status": "active",
+  "expansion": {
+    "timestamp": "2026-01-01T00:00:00Z",
+    "contains": [
+      {
+        "system": "http://example.org/fhirpath-memberof/CodeSystem/alpha",
+        "code": "A1"
+      }
+    ]
+  }
+}
