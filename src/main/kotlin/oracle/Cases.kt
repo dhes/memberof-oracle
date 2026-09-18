@@ -13,7 +13,9 @@ private fun coding(system: String?, code: String?): String =
   listOfNotNull(system?.let { "\"system\":\"$it\"" }, code?.let { "\"code\":\"$it\"" }).joinToString(",", "{", "}")
 
 private fun obs(vararg codings: String, valueString: String? = null): String {
-  val code = if (codings.isEmpty()) "" else ",\"code\":{\"coding\":[${codings.joinToString(",")}]}"
+  // Observation.code is required (1..1). HAPI tolerates its absence; stricter parsers do not.
+  val code =
+    if (codings.isEmpty()) ",\"code\":{\"text\":\"unused\"}" else ",\"code\":{\"coding\":[${codings.joinToString(",")}]}"
   val value = valueString?.let { ",\"valueString\":\"$it\"" } ?: ""
   return "{\"resourceType\":\"Observation\",\"status\":\"final\"$code$value}"
 }

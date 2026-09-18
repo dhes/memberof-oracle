@@ -378,6 +378,9 @@
       "resource": {
         "resourceType": "Observation",
         "status": "final",
+        "code": {
+          "text": "unused"
+        },
         "valueString": "A1"
       },
       "results": {
@@ -398,6 +401,9 @@
       "resource": {
         "resourceType": "Observation",
         "status": "final",
+        "code": {
+          "text": "unused"
+        },
         "valueString": "A3"
       },
       "results": {
@@ -444,7 +450,10 @@
       "expression": "Observation.category.memberOf('http://example.org/fhirpath-memberof/ValueSet/who-shape')",
       "resource": {
         "resourceType": "Observation",
-        "status": "final"
+        "status": "final",
+        "code": {
+          "text": "unused"
+        }
       },
       "results": {
         "hapiR5": "empty",
