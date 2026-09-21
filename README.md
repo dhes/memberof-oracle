@@ -71,3 +71,8 @@ Two engines agreeing is a golden; one engine is a comparator, not an authority; 
 
 HAPI is not a "reference" for `memberOf` in any strong sense. It is the only mainstream engine with an in-process mode comparable to an on-device design, and it is what WHO's own toolchain (IG Publisher, validator) runs. It is also fragile: wrong both ways when the code system is missing, and it reports a server error as `false`.
 
+## Licence
+
+Apache-2.0, see `LICENSE`. Copyright 2026 Dan Heslinga.
+
+The fixtures under `fixtures/synthetic/` use made-up code systems and carry no licensed codes. HAPI (`org.hl7.fhir.core`) is a dependency, not redistributed here, and is itself Apache-2.0.
